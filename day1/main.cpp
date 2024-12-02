@@ -7,17 +7,19 @@
 #include <ranges>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using Lists = std::pair<std::vector<std::int64_t>, std::vector<std::int64_t>>;
 
-std::pair<std::string, std::string> Split(const std::string& input) { 
-    auto buffer = std::istringstream{input};
+std::vector<std::string> Split(std::string input)
+{
+    using std::operator""sv;
 
-    const auto split =
-        std::vector<std::string>{std::istream_iterator<std::string>(buffer), std::istream_iterator<std::string>()};
-    
-    return std::make_pair(split[0], split[1]);
+    return input
+        | std::views::split("   "sv)
+        | std::views::take(2)
+        | std::ranges::to<std::vector<std::string>>();
 }
 
 std::pair<std::int64_t, std::int64_t> ParseNumbers(std::string input)
@@ -25,10 +27,10 @@ std::pair<std::int64_t, std::int64_t> ParseNumbers(std::string input)
     auto first = std::int64_t{};
     auto second = std::int64_t{};
 
-    const auto[firstString, secondString] = Split(input);
+    const auto strings = Split(std::move(input));
 
-    std::ignore = std::from_chars(firstString.data(), firstString.data() + firstString.size(), first);
-    std::ignore = std::from_chars(secondString.data(), secondString.data() + secondString.size(), second);
+    std::ignore = std::from_chars(strings.front().data(), strings.front().data() + strings.front().size(), first);
+    std::ignore = std::from_chars(strings.back().data(), strings.back().data() + strings.back().size(), second);
 
     return std::make_pair(first, second);
 }
@@ -42,7 +44,7 @@ Lists LoadFile(const std::filesystem::path& filepath)
     auto input = std::string{};
     while (std::getline(file, input))
     {
-        const auto[first, second] = ParseNumbers(std::move(input));
+        const auto [first, second] = ParseNumbers(std::move(input));
         firstList.push_back(first);
         secondList.push_back(second);
     }
@@ -52,7 +54,7 @@ Lists LoadFile(const std::filesystem::path& filepath)
 
 void Part1(const Lists& input)
 {
-    auto[firstList, secondList] = input;
+    auto [firstList, secondList] = input;
     std::ranges::sort(firstList);
     std::ranges::sort(secondList);
 
@@ -72,7 +74,7 @@ void Part1(const Lists& input)
 
 void Part2(const Lists& input)
 {
-    const auto&[firstList, secondList] = input;
+    const auto& [firstList, secondList] = input;
 
     const auto result =
         std::ranges::fold_left(
