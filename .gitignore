@@ -4,3 +4,5 @@ input/
 input.txt
 target/
 project/
+obj/
+bin/

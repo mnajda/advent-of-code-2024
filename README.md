@@ -12,3 +12,4 @@ Solutions for [Advent of Code 2024](https://adventofcode.com/2024).
 | 4 | [Ceres Search](https://adventofcode.com/2024/day/4) | TypeScript | [day4](https://github.com/mnajda/advent-of-code-2024/tree/main/day4) |
 | 5 | [Print Queue](https://adventofcode.com/2024/day/5) | Rust | [day5](https://github.com/mnajda/advent-of-code-2024/tree/main/day5) |
 | 6 | [Guard Gallivant](https://adventofcode.com/2024/day/6) | Scala | [day6](https://github.com/mnajda/advent-of-code-2024/tree/main/day6) |
+| 7 | [Bridge Repair](https://adventofcode.com/2024/day/7) | F# | [day7](https://github.com/mnajda/advent-of-code-2024/tree/main/day7) |
